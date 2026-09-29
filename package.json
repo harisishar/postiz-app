@@ -81,6 +81,7 @@
     "@neynar/nodejs-sdk": "^3.112.0",
     "@pigment-css/react": "^0.0.30",
     "@postiz/wallets": "^0.0.1",
+    "@prisma/adapter-d1": "6.5.0",
     "@prisma/client": "6.5.0",
     "@sentry/nestjs": "^10.26.0",
     "@sentry/nextjs": "^10.26.0",

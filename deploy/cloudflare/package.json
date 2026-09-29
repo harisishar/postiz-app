@@ -1,0 +1,18 @@
+{
+  "name": "postiz-cloudflare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "migrations:init": "cp ../../libraries/nestjs-libraries/src/database/prisma/schema.prisma /tmp/postiz.d1.prisma && ./to-d1-schema.sh /tmp/postiz.d1.prisma && pnpm dlx prisma@6.5.0 migrate diff --from-empty --to-schema-datamodel /tmp/postiz.d1.prisma --script > migrations/0001_init.sql",
+    "migrations:apply": "wrangler d1 migrations apply postiz --remote",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/containers": "0.3.7",
+    "@cloudflare/workers-types": "^5.20260929.1",
+    "@types/node": "22",
+    "typescript": "^5.9.0",
+    "wrangler": "4.143.0"
+  }
+}

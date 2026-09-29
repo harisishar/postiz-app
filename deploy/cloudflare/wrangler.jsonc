@@ -1,0 +1,51 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "postiz",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "containers": [
+    {
+      "class_name": "PostizContainer",
+      "image": "./Dockerfile",
+      "image_build_context": "../..",
+      "instance_type": "standard-2",
+      "max_instances": 1
+    }
+  ],
+  "durable_objects": {
+    "bindings": [{ "name": "APP", "class_name": "PostizContainer" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["PostizContainer"] }],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "postiz",
+      "database_id": "REPLACE_WITH_ID_FROM_wrangler_d1_create",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "workflows": [
+    { "name": "postiz-temporal", "binding": "TEMPORAL_WF", "class_name": "TemporalWorkflow" }
+  ],
+  // Postiz's workflows are bundled into the Worker as-is; Temporal's workflow
+  // API is provided by src/temporal.ts
+  "alias": {
+    "@temporalio/workflow": "./src/temporal.ts",
+    "@temporalio/common": "./src/temporal.ts",
+    "@gitroom/orchestrator/workflows": "../../apps/orchestrator/src/workflows/index.ts"
+  },
+  // Non-secret config. Secrets (JWT_SECRET, CLOUDFLARE_SECRET_ACCESS_KEY,
+  // FACEBOOK_APP_SECRET, ...) go in with `wrangler secret put <NAME>`.
+  "vars": {
+    "FRONTEND_URL": "https://postiz.example.com",
+    "NEXT_PUBLIC_BACKEND_URL": "https://postiz.example.com/api",
+    "BACKEND_INTERNAL_URL": "http://localhost:3000",
+    "STORAGE_PROVIDER": "cloudflare",
+    "CLOUDFLARE_BUCKETNAME": "postiz-media",
+    "CLOUDFLARE_BUCKET_URL": "https://media.example.com",
+    "CLOUDFLARE_REGION": "auto",
+    "IS_GENERAL": "true",
+    "RUN_CRON": "true"
+  }
+}

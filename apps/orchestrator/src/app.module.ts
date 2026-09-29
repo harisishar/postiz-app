@@ -10,8 +10,9 @@ import { MediaActivity } from '@gitroom/orchestrator/activities/media.activity';
 import { ClippingActivity } from '@gitroom/orchestrator/activities/clipping.activity';
 import { VideoModule } from '@gitroom/nestjs-libraries/videos/video.module';
 import { HealthController } from '@gitroom/orchestrator/health.controller';
+import { ActivityController } from '@gitroom/orchestrator/activity.controller';
 
-const activities = [
+export const activities = [
   PostActivity,
   AutopostService,
   EmailActivity,
@@ -26,7 +27,10 @@ const activities = [
     VideoModule,
     getTemporalModule(true, require.resolve('./workflows'), activities),
   ],
-  controllers: [HealthController],
+  controllers: [
+    HealthController,
+    ...(process.env.WORKFLOWS_URL ? [ActivityController] : []),
+  ],
   providers: [...activities],
   get exports() {
     return [...this.providers, ...this.imports];

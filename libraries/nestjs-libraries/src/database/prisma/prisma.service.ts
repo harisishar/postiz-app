@@ -1,5 +1,7 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { PrismaD1 } from '@prisma/adapter-d1';
+import { d1Bridge } from '@gitroom/nestjs-libraries/database/prisma/d1.bridge';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
@@ -11,6 +13,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
           level: 'query',
         },
       ],
+      // Cloudflare deployment only (deploy/cloudflare): talk to D1 through the
+      // Worker. Unset everywhere else, so the Postgres path is unchanged.
+      ...(process.env.D1_BRIDGE_URL
+        ? { adapter: new PrismaD1(d1Bridge(process.env.D1_BRIDGE_URL) as any) }
+        : {}),
     });
   }
   async onModuleInit() {
