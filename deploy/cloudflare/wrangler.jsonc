@@ -21,7 +21,7 @@
     {
       "binding": "DB",
       "database_name": "postiz",
-      "database_id": "REPLACE_WITH_ID_FROM_wrangler_d1_create",
+      "database_id": "1e8edd1e-6a3b-4caf-8e7a-ee2f4ab01916",
       "migrations_dir": "migrations"
     }
   ],
