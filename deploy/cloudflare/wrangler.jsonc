@@ -34,7 +34,11 @@
   "alias": {
     "@temporalio/workflow": "./src/temporal.ts",
     "@temporalio/common": "./src/temporal.ts",
-    "@gitroom/orchestrator/workflows": "../../apps/orchestrator/src/workflows/index.ts"
+    "@gitroom/orchestrator/workflows": "../../apps/orchestrator/src/workflows/index.ts",
+    // the workflows' own dependencies, resolved from this package since
+    // Workers Builds only installs deploy/cloudflare
+    "dayjs": "./node_modules/dayjs",
+    "lodash": "./node_modules/lodash"
   },
   // Non-secret config. Secrets (JWT_SECRET, CLOUDFLARE_SECRET_ACCESS_KEY,
   // FACEBOOK_APP_SECRET, ...) go in with `wrangler secret put <NAME>`.
