@@ -35,7 +35,10 @@ RUN grep -rlE "mode: .insensitive.|skipDuplicates: true" libraries apps --includ
     -e "s/, mode: .insensitive.//" \
     -e "/^\s*skipDuplicates: true,?$/d"
 RUN pnpm install
-RUN NODE_OPTIONS="--max-old-space-size=4096" pnpm run build
+# Drop the build caches in the same layer: they're unused at runtime and made
+# the layer too big to push to registry.cloudflare.com.
+RUN NODE_OPTIONS="--max-old-space-size=4096" pnpm run build \
+ && rm -rf apps/frontend/.next/cache /root/.cache
 
 # No `prisma db push` (D1 is migrated with wrangler). The orchestrator only
 # serves activities to Cloudflare Workflows (WORKFLOWS_URL is set).
