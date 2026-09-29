@@ -5,6 +5,9 @@ import {
   TemporalWorkflowBase,
 } from './workflows';
 
+// required for outboundByHost (d1.internal / wf.internal) to work
+export { ContainerProxy } from '@cloudflare/containers';
+
 interface Env {
   APP: DurableObjectNamespace<PostizContainer>;
   DB: D1Database;
