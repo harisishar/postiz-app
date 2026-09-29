@@ -1,9 +1,10 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "postiz",
+  "name": "postiz-it",
   "main": "src/index.ts",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
+  "routes": [{ "pattern": "postlah.toolsbay.app", "custom_domain": true }],
   "containers": [
     {
       "class_name": "PostizContainer",
@@ -38,12 +39,13 @@
   // Non-secret config. Secrets (JWT_SECRET, CLOUDFLARE_SECRET_ACCESS_KEY,
   // FACEBOOK_APP_SECRET, ...) go in with `wrangler secret put <NAME>`.
   "vars": {
-    "FRONTEND_URL": "https://postiz.example.com",
-    "NEXT_PUBLIC_BACKEND_URL": "https://postiz.example.com/api",
+    "FRONTEND_URL": "https://postlah.toolsbay.app",
+    "NEXT_PUBLIC_BACKEND_URL": "https://postlah.toolsbay.app/api",
     "BACKEND_INTERNAL_URL": "http://localhost:3000",
     "STORAGE_PROVIDER": "cloudflare",
+    "CLOUDFLARE_ACCOUNT_ID": "c096196e65fdfad4df08bbbda76374b0",
     "CLOUDFLARE_BUCKETNAME": "postiz-media",
-    "CLOUDFLARE_BUCKET_URL": "https://media.example.com",
+    "CLOUDFLARE_BUCKET_URL": "https://postlah-media.toolsbay.app",
     "CLOUDFLARE_REGION": "auto",
     "IS_GENERAL": "true",
     "RUN_CRON": "true"

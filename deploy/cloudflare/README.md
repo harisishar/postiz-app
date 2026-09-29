@@ -20,7 +20,7 @@ pnpm exec wrangler r2 bucket create postiz-media
 Edit `vars` in `wrangler.jsonc` (your domains), then add secrets:
 
 ```sh
-for s in JWT_SECRET CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_ACCESS_KEY CLOUDFLARE_SECRET_ACCESS_KEY \
+for s in JWT_SECRET CLOUDFLARE_ACCESS_KEY CLOUDFLARE_SECRET_ACCESS_KEY \
          FACEBOOK_APP_ID FACEBOOK_APP_SECRET INSTAGRAM_APP_ID INSTAGRAM_APP_SECRET \
          THREADS_APP_ID THREADS_APP_SECRET RESEND_API_KEY; do
   pnpm exec wrangler secret put $s
@@ -33,7 +33,7 @@ pnpm run migrations:init     # regenerate migrations/0001_init.sql from the upst
 pnpm run migrations:apply
 pnpm run deploy
 ```
-Attach your app domain to the `postiz` Worker in the dashboard (Workers → Settings → Domains).
+The app domain is attached by `routes` in `wrangler.jsonc` on deploy.
 
 ### Deploying from Git (Workers Builds)
 In the Worker's **Settings → Build**:
