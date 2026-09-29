@@ -9,7 +9,7 @@ Requires the Workers Paid plan and Docker with `buildx`.
 
 ```sh
 cd deploy/cloudflare
-pnpm install --ignore-workspace
+pnpm install
 pnpm exec wrangler login
 pnpm exec wrangler d1 create postiz            # paste database_id into wrangler.jsonc
 pnpm exec wrangler r2 bucket create postiz-media
@@ -34,6 +34,14 @@ pnpm run migrations:apply
 pnpm run deploy
 ```
 Attach your app domain to the `postiz` Worker in the dashboard (Workers → Settings → Domains).
+
+### Deploying from Git (Workers Builds)
+In the Worker's **Settings → Build**:
+- **Root directory:** `deploy/cloudflare`
+- **Build command:** leave empty (dependencies are installed automatically)
+- **Deploy command:** `npx wrangler d1 migrations apply postiz --remote && npx wrangler deploy`
+
+Set the secrets under **Settings → Variables and Secrets**.
 
 ## Meta app
 In your Meta app, set the OAuth redirect URIs to `https://<app-domain>/integrations/social/{facebook,instagram,instagram-standalone,threads}`.
